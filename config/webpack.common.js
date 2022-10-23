@@ -1,12 +1,13 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin')
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 
-const paths = require('./paths')
+const paths = require('./paths');
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: {
@@ -14,6 +15,7 @@ module.exports = {
   },
   output: {
     path: paths.build,
+    publicPath: '/',
     filename: '[name].bundle.js',
     clean: true,
     assetModuleFilename: 'assets/[hash].[ext]?[query]',
@@ -34,6 +36,7 @@ module.exports = {
                 targets: {
                   browsers: ['>= 1%, not dead'],
                 },
+                debug: isDevelopment,
               },
             ],
             '@babel/preset-typescript',
@@ -61,6 +64,7 @@ module.exports = {
       favicon: paths.public + '/favicon.ico',
       filename: 'index.html',
     }),
+    isDevelopment && new webpack.HotModuleReplacementPlugin(),
     isDevelopment && new RefreshWebpackPlugin(),
   ].filter(Boolean),
   resolve: {
@@ -68,4 +72,4 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', 'css'],
     plugins: [new TsconfigPathsPlugin()],
   },
-}
+};

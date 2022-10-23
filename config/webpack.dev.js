@@ -1,16 +1,16 @@
-const { LoaderOptionsPlugin } = require('webpack')
-const { merge } = require('webpack-merge')
+const { LoaderOptionsPlugin } = require('webpack');
+const { merge } = require('webpack-merge');
 
-const common = require('./webpack.common.js')
-const paths = require('./paths')
+const common = require('./webpack.common.js');
+const paths = require('./paths');
 
 // style files regexes
-const cssRegex = /\.css$/
-const cssModuleRegex = /\.module\.css$/
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'eval',
+  devtool: 'hidden-source-map',
   module: {
     rules: [
       // style-loader, css-loader 구성
@@ -34,14 +34,11 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins: [
-    new LoaderOptionsPlugin({ debug: true }),
-  ],
+  plugins: [new LoaderOptionsPlugin({ debug: true })],
   devServer: {
     static: paths.build,
     compress: true,
     port: 3001,
-    hot: true,
-    historyApiFallback: true,
+    historyApiFallback:true
   },
-})
+});
